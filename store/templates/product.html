@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block content %}
+<!-- Header-->
+
+<div class="container my-5">
+  <div class="card mb-3">
+    <div class="row g-0">
+      <div class="col-md-4">
+        <img src="{{ product.image.url }}" class="img-fluid rounded-start" alt="{{ product.name }}">
+      </div>
+      <div class="col-md-8">
+        <div class="card-body text-center">
+          <h5 class="card-title">{{ product.name }}</h5>
+          <p class="card-text">{{ product.description }}</p>
+
+          {% if product.is_sale %}
+          <h5 class="fw-bolder">{{ product.name }}</h5>
+          <p>
+            <strike>${{ product.price }}</strike>
+            &nbsp;
+            <span class="text-danger fw-bold">${{ product.sale_price }}</span>
+          </p>
+          {% else %}
+          <p class="fw-bold">${{ product.price }}</p>
+          <p>ID: {{ product.id }}</p>
+          {% endif %}
+
+          <a href="{% url 'home' %}" class="btn btn-secondary me-2">Home</a>
+          <button type="button" value="{{ product.id }}" class="btn btn-primary add-cart">Add To Cart</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- jQuery CDN (if not already included in base.html) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+$(document).ready(function() {
+    // Add to Cart button click
+    $(document).on('click', '.add-cart', function(e) {
+        e.preventDefault();
+
+        var productId = $(this).val();  // get button value
+
+        $.ajax({
+            type: 'POST',
+            url: "{% url 'cart_add' %}",
+            data: {
+                product_id: productId,
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                action: 'post'
+            },
+            success: function(response) {
+                console.log(response);
+                alert('Product added to cart!');
+            },
+            error: function(xhr, errmsg, err) {
+                console.error(xhr.status + ": " + xhr.responseText);
+                alert('An error occurred. Please try again.');
+            }
+        });
+    });
+});
+</script>
+
+{% endblock %}

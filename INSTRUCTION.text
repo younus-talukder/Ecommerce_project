@@ -1,0 +1,130 @@
+create environment
+django-admin startproject ecom
+startapp store
+settings e store add,media add,static
+urls e add korte hobe store url +static
+
+STORE :
+
+urls e add then home.html and home view kora
+Runserver
+model create
+Migrate , migrations
+admin register for admin page view
+
+static directory and add staticfile dir on settings.py
+download html and paste it to static file
+connect django to the css and static file
+{% load static %}
+<link href="{% static 'css/styles.css' %}" rel="stylesheet" />
+<link rel="icon" type="image/x-icon" href="{% static 'assets/favicon.ico' % }" />
+        <!--
+<script src="{% static 'js/scripts.js'%}"></script>
+change index.html to home.html
+
+Product image Adding :
+upload image
+home e object call korte hobe products e
+tarpor for loop home.html e jekhan thke product er kaj shuru hoitece
+{% for product in products %}
+end for loop
+play with this code
+{% for product in products %}
+                    <div class="col mb-5">
+                        <div class="card h-100">
+                            <!-- Product image-->
+                            <img class="card-img-top" src="{{ product.image.url }}" alt="{{ product.name }}" />
+                            <!-- Product details-->
+                            <div class="card-body p-4">
+                                <div class="text-center">
+                                    <!-- Product name-->
+                                    <h5 class="fw-bolder">{{ product.name }}</h5>
+                                    <!-- Product price-->
+                                    ${{ product.price }}
+                                    <br/>
+                                    {{ product.description }}
+                                </div>
+                            </div>
+                            <!-- Product actions-->
+                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">View options</a></div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+
+Paste navbar code from home.html
+{% include 'navbar.html' %} delet navbar code and add this
+{%extends 'base.html' %} home
+home content and base contetn bujhe rakhte hobe jeta lagbena delet korbo
+
+
+Login :
+html open
+views
+path
+from django.contrib.auth import authenticate, login, logout
+{% if user.is_authenticated %}
+                <li class="nav-item"><a class="nav-link" href="{% url 'logout'%}">Logout</a></li>
+            {% else %}
+                <li class="nav-item"><a class="nav-link" href="{% url 'login'%}">Login</a></li>
+            {% endif %}
+         This will be in navbar
+
+download from and add it to loin
+<from method ="POST" action = "{% url 'login' %}">
+    {% csrf_token %}
+views er kaj
+tarpor base a messege er jonno for loop
+boostarp theke messege alert ene okhane {{ messages}} likbo
+
+Register:
+url,videws:
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
+from django import forms
+create forms.py import all the things
+https://github.com/flatplanet/musker/blob/main/musker/forms.py copy the code form here
+def register_user(request):
+    form = SignUpForm()   # 1. Create an empty signup form for GET request
+    if request.method == 'POST':   # 2. If the user submits the form
+        form = SignUpForm(request.POST)  # 3. Fill form with POST data
+        if form.is_valid():  # 4. Validate inputs (username unique, password strong, etc.)
+            form.save()  # 5. Save new user into the database
+
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+
+            # 6. Authenticate user (check if username/password matches DB)
+            user = authenticate(username=username, password=password)
+
+            # 7. Log the user in (create session)
+            login(request, user)
+
+            # 8. Success message
+            messages.success(request, "you have Resistered succeessfully ")
+
+            # 9. Redirect to homepage (or wherever you want after register)
+            return redirect('home')
+
+category:
+url
+views
+category  where change dropdown menu and then click category which goes to home page
+we can access the category by foo
+
+SHopping Cart:
+create apps
+make url.py
+path('cart/', include('cart.urls')),
+setting app conection
+navbar shopping cart setting of URL so that i can click the cart and view the page
+
+Now cart.py for making cart seessions
+content-precessors for it will be available on all page
+now connect it with setting.py in templetes
+
+download jquery and add to base
+add add to cart button to product
+now add ajax code of js
+
