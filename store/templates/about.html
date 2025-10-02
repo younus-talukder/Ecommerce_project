@@ -1,27 +1,60 @@
 {% extends 'base.html' %}
 {% block content %}
-<!-- Header-->
-<header class="bg-dark py-5">
+<!-- Hero Header -->
+<header class="about-header py-5 text-center text-white">
     <div class="container px-4 px-lg-5 my-5">
-        <div class="text-center text-white">
-            <h1 class="display-4 fw-bolder">Shop in style</h1>
-            <p class="lead fw-normal text-white-50 mb-0">With this shop homepage template</p>
-        </div>
+        <h1 class="display-4 fw-bold">About Us</h1>
+        <p class="lead text-white-50">Discover the story behind Sokher Bazar</p>
     </div>
 </header>
 
+<!-- About Content -->
 <div class="container my-5">
     <div class="row justify-content-center">
         <div class="col-10 col-md-8">
-            <p class="justify-text">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum dapibus dolor volutpat nisi dictum molestie. Sed laoreet justo eu augue tincidunt, eget consectetur leo faucibus. Aliquam in enim posuere, mattis libero non, aliquam purus. Maecenas ultrices ex justo, id imperdiet risus scelerisque sed. Maecenas ut maximus nibh. Mauris auctor leo ut sem congue dictum. Cras condimentum arcu at libero elementum rutrum. Vivamus feugiat, nunc a aliquam molestie, nisl lectus ornare ligula, sed consequat massa dui vel urna. Phasellus sed arcu placerat lacus finibus mattis. Praesent semper interdum odio feugiat ultricies. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae;
-                <br><br>
-                In finibus nunc ut volutpat ullamcorper. Suspendisse at erat eget odio pretium blandit. Duis vitae nisi mauris. Mauris a pharetra nunc. Morbi id leo lacus. Ut in sodales nulla, a pellentesque eros. Nam consectetur sodales magna, sit amet rhoncus lorem. Integer venenatis elit massa, id commodo nisl pharetra eget. Cras tristique lectus ut ex sollicitudin, ac tempor risus rutrum. Ut eu nulla accumsan, efficitur metus non, posuere orci. Proin pellentesque, nibh eu fringilla pulvinar, libero urna venenatis nibh, a tincidunt felis tellus ac lacus. Suspendisse at eros orci. Pellentesque in malesuada lorem, sit amet elementum ante. Nam ut est vitae felis mollis porta.
-                <br><br>
-                Aliquam fermentum, enim vel fringilla eleifend, lacus mauris auctor quam, non interdum dolor ex imperdiet nisl. Sed ornare ipsum sed dolor porttitor varius sit amet imperdiet metus. Donec libero tellus, dictum a ex vehicula, porttitor fringilla diam. Praesent diam nibh, rutrum sit amet enim quis, sollicitudin ultricies dolor. Nulla ullamcorper congue enim a lacinia. Suspendisse potenti. Donec nec varius mi.
+            <h2 class="fw-bold mb-4 text-center">Welcome to Sokher Bazar</h2>
+            <p class="text-justify">
+                At <strong>Sokher Bazar</strong>, we believe shopping is more than just a transaction — it’s an experience.
+                Founded with the vision of supporting artisans, creators, and entrepreneurs, our platform connects
+                customers with quality handmade, unique, and modern products from all over Bangladesh and beyond.
             </p>
+            <p class="text-justify">
+                Whether you're looking for <em>handcrafted jewelry, eco-friendly home items, traditional crafts,
+                or modern lifestyle products</em>, Sokher Bazar is your trusted online marketplace.
+                Every item on our platform is carefully curated to ensure authenticity, quality, and value.
+            </p>
+            <p class="text-justify">
+                We are passionate about helping small businesses grow and giving customers a seamless, enjoyable
+                shopping experience. With secure payment options, fast delivery, and dedicated customer support,
+                Sokher Bazar brings the best of online shopping to your fingertips.
+            </p>
+            <p class="text-justify">
+                Join us in celebrating creativity, culture, and community. Shop with confidence, knowing that
+                every purchase supports hardworking creators and delivers happiness to your home.
+            </p>
+            <div class="text-center mt-4">
+                <a href="{% url 'home' %}" class="btn btn-outline-light">Start Shopping</a>
+            </div>
         </div>
     </div>
 </div>
 
+<!-- Custom Styles -->
+<style>
+    .about-header {
+        background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)),
+                    url("https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1350&q=80")
+                    no-repeat center center/cover;
+        border-bottom: 2px solid #2c2c2c;
+    }
+    .text-justify {
+        text-align: justify;
+        line-height: 1.7;
+    }
+    .btn-outline-light:hover {
+        background-color: #00b894;
+        border-color: #00b894;
+        color: #fff;
+    }
+</style>
 {% endblock %}

@@ -1,252 +1,239 @@
-{%extends 'base.html' %}
+{% extends 'base.html' %}
 {% block content %}
-        <!-- Header-->
-        <header class="bg-dark py-5">
-            <div class="container px-4 px-lg-5 my-5">
-                <div class="text-center text-white">
-                    <h1 class="display-4 fw-bolder">Shop in style</h1>
-                    <p class="lead fw-normal text-white-50 mb-0">With this shop hompeage template</p>
-                </div>
-            </div>
-        </header>
-        <!-- Section-->
-        <section class="py-5">
-            <div class="container px-4 px-lg-5 mt-5">
-                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+{% load static %}
+
+<!-- Hero Section -->
+<header class="hero-dark d-flex align-items-center text-center text-white"
+        style="background-image: url('{% static "assets/banner2.jpg" %}');
+               background-size: cover;
+               background-position: center;
+               background-repeat: no-repeat;">
+  <div class="container px-4 px-lg-5 my-5 hero-content">
+    <h1 class="display-4 fw-bold">Buy Authentic Handmade Products Direct from Bangladeshi Artisans</h1>
+    <p class="lead fw-light opacity-75">Discover unique handmade creations while supporting rural artisans and preserving traditional crafts</p>
+
+    <!-- Search Bar -->
+    <div class="search-bar d-flex justify-content-center mt-4">
+      <input type="text" class="form-control rounded-start-pill" placeholder="Search for products, categories, or artisans...">
+      <button class="btn btn-light rounded-end-pill"><i class="fas fa-search"></i></button>
+    </div>
+
+    <div class="mt-4">
+      <a href="{% url 'home' %}" class="btn btn-light btn-lg rounded-pill me-2">Start Shopping</a>
+      <a href="#" class="btn btn-outline-light btn-lg rounded-pill">Become a Seller</a>
+    </div>
+  </div>
+</header>
+
+<!-- Categories Section -->
+<section class="py-5 bg-dark text-white">
+  <div class="container">
+    <h2 class="section-title text-center mb-5">Shop By Category</h2>
+    <div class="row g-4">
+
+      <!-- Handicrafts -->
+      <div class="col-md-3">
+        <div class="card category-card-dark h-100">
+          <div class="category-img" style="background-image:url('https://images.unsplash.com/photo-1595341888016-a392ef81b7de?auto=format&fit=crop&w=600&q=80')"></div>
+          <div class="card-body text-center">
+            <h5>Handicrafts</h5>
+            <p>Beautiful handmade decorative items</p>
+          </div>
+          <div class="card-footer text-center border-0 bg-transparent">
+            <a href="{% url 'category' 'Crafts & Gifts' %}" class="btn btn-outline-light rounded-pill">View Category</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Textiles -->
+      <div class="col-md-3">
+        <div class="card category-card-dark h-100">
+          <div class="category-img" style="background-image:url('https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?auto=format&fit=crop&w=600&q=80')"></div>
+          <div class="card-body text-center">
+            <h5>Textiles</h5>
+            <p>Traditional fabrics and clothing</p>
+          </div>
+          <div class="card-footer text-center border-0 bg-transparent">
+            <a href="{% url 'category' 'Fashion & Apparel' %}" class="btn btn-outline-light rounded-pill">View Category</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pottery -->
+      <div class="col-md-3">
+        <div class="card category-card-dark h-100">
+          <div class="category-img" style="background-image:url('https://images.unsplash.com/photo-1577930720331-4bb6c234d4dc?auto=format&fit=crop&w=600&q=80')"></div>
+          <div class="card-body text-center">
+            <h5>Pottery</h5>
+            <p>Clay pots and ceramic art</p>
+          </div>
+          <div class="card-footer text-center border-0 bg-transparent">
+            <a href="{% url 'category' 'Home & Decor' %}" class="btn btn-outline-light rounded-pill">View Category</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Jute Products -->
+      <div class="col-md-3">
+        <div class="card category-card-dark h-100">
+          <div class="category-img" style="background-image:url('https://images.unsplash.com/photo-1618517351616-38aae5354e8f?auto=format&fit=crop&w=600&q=80')"></div>
+          <div class="card-body text-center">
+            <h5>Jute Products</h5>
+            <p>Eco-friendly jute creations</p>
+          </div>
+          <div class="card-footer text-center border-0 bg-transparent">
+            <a href="{% url 'category' 'Kitchen & Utility' %}" class="btn btn-outline-light rounded-pill">View Category</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- Artisan Stories Section -->
+<section class="py-5">
+  <div class="container">
+    <h2 class="section-title text-center text-white mb-5">Behind the Craft</h2>
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="card story-card-dark h-100">
+          <div class="story-img" style="background-image:url('https://images.unsplash.com/photo-1545912452-8aea7e25a3d3?auto=format&fit=crop&w=600&q=80')"></div>
+          <div class="card-body">
+            <h5 class="text-white">Rina's Journey with Nakshi Kantha</h5>
+            <p>For three generations, Rina's family has been creating beautiful Nakshi Kantha embroidery...</p>
+            <a href="#" class="btn btn-outline-light rounded-pill mt-2">Read Full Story</a>
+
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card story-card-dark h-100">
+          <div class="story-img" style="background-image:url('https://images.unsplash.com/photo-1562322140-8baeececf3df?auto=format&fit=crop&w=600&q=80')"></div>
+          <div class="card-body">
+            <h5 class="text-white">Abdul's Pottery Legacy</h5>
+            <p>Abdul learned the art of pottery from his father and has been creating beautiful clay pots for over 40 years...</p>
+            <a href="#" class="btn btn-outline-light rounded-pill mt-2">Read Full Story</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card story-card-dark h-100">
+          <div class="story-img" style="background-image:url('https://images.unsplash.com/photo-1575936123452-b67c3203c357?auto=format&fit=crop&w=600&q=80')"></div>
+          <div class="card-body">
+            <h5 class="text-white">Fatema's Sustainable Jute Designs</h5>
+            <p>Fatema combines traditional jute weaving techniques with modern designs to create eco-friendly products...</p>
+            <a href="#" class="btn btn-outline-light rounded-pill mt-2">Read Full Story</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Products Section (dynamic Django loop preserved) -->
+<section class="py-5 bg-dark">
+  <div class="container px-4 px-lg-5 mt-5">
+    <h2 class="section-title text-white mb-4">New & Popular Items</h2>
+    <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+
+      {% for product in products %}
+      <div class="col mb-5">
+        <div class="card h-100 product-card-dark">
+          <!-- Product image -->
+          <div class="product-img-wrapper position-relative">
+            <img class="card-img-top" src="{{ product.image.url }}" alt="{{ product.name }}" />
+            {% if product.is_sale %}
+              <span class="badge bg-danger position-absolute sale-badge">Sale</span>
+            {% endif %}
+          </div>
+
+          <!-- Product details -->
+          <div class="card-body p-4 text-center">
+            <h5 class="fw-bold text-white">{{ product.name }}</h5>
+            {% if product.is_sale %}
+              <p class="mb-1">
+                <span class="text-muted text-decoration-line-through">${{ product.price }}</span>
+                <span class="fw-bold text-success">${{ product.sale_price }}</span>
+              </p>
+            {% else %}
+              <p class="mb-1 fw-semibold text-light">${{ product.price }}</p>
+            {% endif %}
+            <small class="text-muted">{{ product.description }}</small>
+          </div>
+
+          <!-- Product actions -->
+          <div class="card-footer p-3 border-0 bg-transparent text-center">
+            <a class="btn btn-outline-light rounded-pill px-4" href="{% url 'product' product.id %}">View Product</a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+
+    </div>
+  </div>
+</section>
+
+
+<!-- CTA Section -->
+<section class="cta-section text-center text-white py-5" style="background:linear-gradient(135deg,#0d6efd,#1f1f1f);">
+  <div class="container">
+    <h2 class="fw-bold">Join the SokherBazar Community</h2>
+    <p class="lead">Whether you're looking to buy unique handmade products or sell your creations, SokherBazar is the perfect platform for you.</p>
+    <div class="mt-4">
+      <a href="{% url 'home' %}" class="btn btn-light rounded-pill me-2">Start Shopping</a>
+      <a href="#" class="btn btn-outline-light rounded-pill">Become a Seller</a>
+    </div>
+  </div>
+</section>
 
 
 
-                    {% for product in products %}
-                        {% if product.is_sale %}
-                          <div class="col mb-5">
-                        <div class="card h-100">
-                            <!-- Product image-->
-                            <img class="card-img-top" src="{{ product.image.url }}" alt="{{ product.name }}" />
-                            <!-- Product details-->
-                            <div class="card-body p-4">
-                                <div class="text-center">
-                                    <!-- Product name-->
-                                    <h5 class="fw-bolder">{{ product.name }}</h5>
-                                    <!-- Product price-->
-                                    <strike>
-                                    ${{ product.price }}
-                                        </strike>
-                                    &nbsp;
-                                    ${{ product.sale_price }}
-                                    <br/>
-                                    {{ product.description }}
-                                </div>
-                            </div>
-                            <!-- Product actions-->
-                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="{% url 'product' product.id %}">View Product</a></div>
-                            </div>
-                        </div>
-                    </div>
-                         {% else %}
 
-                    <div class="col mb-5">
-                        <div class="card h-100">
-                            <!-- Product image-->
-                            <img class="card-img-top" src="{{ product.image.url }}" alt="{{ product.name }}" />
-                            <!-- Product details-->
-                            <div class="card-body p-4">
-                                <div class="text-center">
-                                    <!-- Product name-->
-                                    <h5 class="fw-bolder">{{ product.name }}</h5>
-                                    <!-- Product price-->
-                                    ${{ product.price }}
-                                    <br/>
-                                    {{ product.description }}
-                                </div>
-                            </div>
-                            <!-- Product actions-->
-                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="{% url 'product' product.id %}">View Product</a></div>
-                            </div>
-                        </div>
-                    </div>
 
-                        {% endif %}
-                    {% endfor %}
-                    <div class="col mb-5">
-                        <div class="card h-100">
-                            <!-- Sale badge-->
-                            <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
-                            <!-- Product image-->
-                            <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
-                            <!-- Product details-->
-                            <div class="card-body p-4">
-                                <div class="text-center">
-                                    <!-- Product name-->
-                                    <h5 class="fw-bolder">Special Item</h5>
-                                    <!-- Product reviews-->
-                                    <div class="d-flex justify-content-center small text-warning mb-2">
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                    </div>
-                                    <!-- Product price-->
-                                    <span class="text-muted text-decoration-line-through">$20.00</span>
-                                    $18.00
-                                </div>
-                            </div>
-                            <!-- Product actions-->
-                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col mb-5">
-                        <div class="card h-100">
-                            <!-- Sale badge-->
-                            <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
-                            <!-- Product image-->
-                            <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
-                            <!-- Product details-->
-                            <div class="card-body p-4">
-                                <div class="text-center">
-                                    <!-- Product name-->
-                                    <h5 class="fw-bolder">Sale Item</h5>
-                                    <!-- Product price-->
-                                    <span class="text-muted text-decoration-line-through">$50.00</span>
-                                    $25.00
-                                </div>
-                            </div>
-                            <!-- Product actions-->
-                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col mb-5">
-                        <div class="card h-100">
-                            <!-- Product image-->
-                            <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
-                            <!-- Product details-->
-                            <div class="card-body p-4">
-                                <div class="text-center">
-                                    <!-- Product name-->
-                                    <h5 class="fw-bolder">Popular Item</h5>
-                                    <!-- Product reviews-->
-                                    <div class="d-flex justify-content-center small text-warning mb-2">
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                    </div>
-                                    <!-- Product price-->
-                                    $40.00
-                                </div>
-                            </div>
-                            <!-- Product actions-->
-                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col mb-5">
-                        <div class="card h-100">
-                            <!-- Sale badge-->
-                            <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
-                            <!-- Product image-->
-                            <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
-                            <!-- Product details-->
-                            <div class="card-body p-4">
-                                <div class="text-center">
-                                    <!-- Product name-->
-                                    <h5 class="fw-bolder">Sale Item</h5>
-                                    <!-- Product price-->
-                                    <span class="text-muted text-decoration-line-through">$50.00</span>
-                                    $25.00
-                                </div>
-                            </div>
-                            <!-- Product actions-->
-                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col mb-5">
-                        <div class="card h-100">
-                            <!-- Product image-->
-                            <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
-                            <!-- Product details-->
-                            <div class="card-body p-4">
-                                <div class="text-center">
-                                    <!-- Product name-->
-                                    <h5 class="fw-bolder">Fancy Product</h5>
-                                    <!-- Product price-->
-                                    $120.00 - $280.00
-                                </div>
-                            </div>
-                            <!-- Product actions-->
-                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">View options</a></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col mb-5">
-                        <div class="card h-100">
-                            <!-- Sale badge-->
-                            <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
-                            <!-- Product image-->
-                            <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
-                            <!-- Product details-->
-                            <div class="card-body p-4">
-                                <div class="text-center">
-                                    <!-- Product name-->
-                                    <h5 class="fw-bolder">Special Item</h5>
-                                    <!-- Product reviews-->
-                                    <div class="d-flex justify-content-center small text-warning mb-2">
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                    </div>
-                                    <!-- Product price-->
-                                    <span class="text-muted text-decoration-line-through">$20.00</span>
-                                    $18.00
-                                </div>
-                            </div>
-                            <!-- Product actions-->
-                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col mb-5">
-                        <div class="card h-100">
-                            <!-- Product image-->
-                            <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
-                            <!-- Product details-->
-                            <div class="card-body p-4">
-                                <div class="text-center">
-                                    <!-- Product name-->
-                                    <h5 class="fw-bolder">Popular Item</h5>
-                                    <!-- Product reviews-->
-                                    <div class="d-flex justify-content-center small text-warning mb-2">
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                    </div>
-                                    <!-- Product price-->
-                                    $40.00
-                                </div>
-                            </div>
-                            <!-- Product actions-->
-                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+<!-- Custom CSS -->
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+  body {
+    font-family: 'Inter', sans-serif;
+    background-color: #121212;
+    color: #eaeaea;
+  }
+  .hero-dark { min-height: 60vh; }
+  .category-card-dark, .story-card-dark {
+    border: none; border-radius: 16px;
+    background-color: #1e1e1e; color: #eaeaea;
+    overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+    transition: transform .3s;
+  }
+  .category-card-dark:hover, .story-card-dark:hover { transform: translateY(-6px); }
+  .category-img, .story-img {
+    height: 200px; background-size: cover; background-position:center;
+  }
+  .product-card-dark { border:none; border-radius:16px; background-color:#1e1e1e; overflow:hidden; transition:.3s; box-shadow:0 2px 8px rgba(0,0,0,.5);}
+  .product-card-dark:hover { transform:translateY(-6px); box-shadow:0 8px 20px rgba(0,0,0,.8);}
+  .product-img-wrapper img { transition:transform .4s ease; }
+  .product-card-dark:hover img { transform:scale(1.05); }
+  .sale-badge { top:12px; right:12px; font-size:.8rem; padding:6px 10px; border-radius:50px;}
+  .btn-outline-light { border:2px solid #eaeaea; color:#eaeaea; }
+  .btn-outline-light:hover { background:#0d6efd; border-color:#0d6efd; color:#fff; transform:scale(1.05);}
+  .footer-dark { background-color:#1a1a1a; }
+  .footer-link { color:#bbb; text-decoration:none; display:block; margin-bottom:6px;}
+  .footer-link:hover { color:#0d6efd; }
+  .social-icon { font-size:1.2rem; color:#bbb; }
+  .social-icon:hover { color:#0d6efd; }
+</style>
+
+<!-- Wishlist + Animation JS -->
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  const observer=new IntersectionObserver((entries)=>{entries.forEach(entry=>{if(entry.isIntersecting){entry.target.style.opacity=1;entry.target.style.transform='translateY(0)';}});},{threshold:0.1});
+  document.querySelectorAll('.category-card-dark,.story-card-dark,.product-card-dark').forEach(card=>{
+    card.style.opacity=0;card.style.transform='translateY(20px)';card.style.transition='opacity .5s, transform .5s';observer.observe(card);
+  });
+});
+</script>
+
 {% endblock %}

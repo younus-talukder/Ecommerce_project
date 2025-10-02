@@ -28,4 +28,6 @@ urlpatterns = [
     path('category/<str:foo>', views.category, name='category'),
 
 
+
+
 ]

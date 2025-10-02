@@ -1,39 +1,123 @@
 {% extends 'base.html' %}
 {% block content %}
-<!-- Header-->
-
+<!-- Product Details Section -->
 <div class="container my-5">
-  <div class="card mb-3">
-    <div class="row g-0">
-      <div class="col-md-4">
-        <img src="{{ product.image.url }}" class="img-fluid rounded-start" alt="{{ product.name }}">
-      </div>
-      <div class="col-md-8">
-        <div class="card-body text-center">
-          <h5 class="card-title">{{ product.name }}</h5>
-          <p class="card-text">{{ product.description }}</p>
+  <div class="card product-detail-card shadow-lg">
+    <div class="row g-0 align-items-center">
 
+      <!-- Product Image -->
+      <div class="col-md-5">
+        <div class="product-image-wrapper">
+          <img src="{{ product.image.url }}" class="img-fluid rounded-start product-img" alt="{{ product.name }}">
           {% if product.is_sale %}
-          <h5 class="fw-bolder">{{ product.name }}</h5>
-          <p>
-            <strike>${{ product.price }}</strike>
-            &nbsp;
-            <span class="text-danger fw-bold">${{ product.sale_price }}</span>
-          </p>
-          {% else %}
-          <p class="fw-bold">${{ product.price }}</p>
-          <p>ID: {{ product.id }}</p>
+            <span class="badge bg-danger sale-badge">Sale</span>
           {% endif %}
-
-          <a href="{% url 'home' %}" class="btn btn-secondary me-2">Home</a>
-          <button type="button" value="{{ product.id }}" class="btn btn-primary add-cart">Add To Cart</button>
         </div>
       </div>
+
+      <!-- Product Info -->
+      <div class="col-md-7">
+        <div class="card-body text-center p-5">
+          <h2 class="product-title">{{ product.name }}</h2>
+          <p class="product-description">{{ product.description }}</p>
+
+          {% if product.is_sale %}
+            <p class="product-price">
+              <span class="text-muted text-decoration-line-through">${{ product.price }}</span>
+              <span class="fw-bold text-success ms-2">${{ product.sale_price }}</span>
+            </p>
+          {% else %}
+            <p class="product-price fw-bold">${{ product.price }}</p>
+          {% endif %}
+
+          <!-- Actions -->
+          <div class="mt-4">
+            <a href="{% url 'home' %}" class="btn btn-outline-light rounded-pill px-4 me-2">🏠 Home</a>
+            <button type="button" value="{{ product.id }}" class="btn btn-primary rounded-pill px-4 add-cart">🛒 Add To Cart</button>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>
 
-<!-- jQuery CDN (if not already included in base.html) -->
+<!-- Custom Styles -->
+<style>
+  /* Product Card Dark Theme */
+  .product-detail-card {
+    background-color: #1e1e1e;
+    border: none;
+    border-radius: 18px;
+    overflow: hidden;
+    color: #eaeaea;
+  }
+
+  /* Product Image */
+  .product-image-wrapper {
+    position: relative;
+    overflow: hidden;
+    border-radius: 18px 0 0 18px;
+  }
+  .product-img {
+    width: 100%;
+    height: auto;
+    transition: transform 0.4s ease;
+  }
+  .product-image-wrapper:hover .product-img {
+    transform: scale(1.08);
+  }
+
+  /* Sale Badge */
+  .sale-badge {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    font-size: 0.9rem;
+    padding: 6px 12px;
+    border-radius: 30px;
+  }
+
+  /* Product Info */
+  .product-title {
+    font-family: 'Cinzel Decorative', cursive;
+    font-size: 2rem;
+    margin-bottom: 15px;
+  }
+  .product-description {
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    opacity: 0.85;
+    margin-bottom: 20px;
+  }
+  .product-price {
+    font-size: 1.4rem;
+  }
+
+  /* Buttons */
+  .btn-outline-light {
+    border: 2px solid #eaeaea;
+    color: #eaeaea;
+    transition: all 0.3s ease;
+  }
+  .btn-outline-light:hover {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+    color: #fff;
+    transform: scale(1.05);
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    border: none;
+    transition: all 0.3s ease;
+  }
+  .btn-primary:hover {
+    transform: scale(1.05);
+    background: linear-gradient(135deg, #2575fc, #6a11cb);
+  }
+</style>
+
+<!-- jQuery (if not in base.html) -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
@@ -42,7 +126,7 @@ $(document).ready(function() {
     $(document).on('click', '.add-cart', function(e) {
         e.preventDefault();
 
-        var productId = $(this).val();  // get button value
+        var productId = $(this).val();
 
         $.ajax({
             type: 'POST',
@@ -54,15 +138,14 @@ $(document).ready(function() {
             },
             success: function(response) {
                 console.log(response);
-                alert('Product added to cart!');
+                alert('✅ Product added to cart!');
             },
             error: function(xhr, errmsg, err) {
                 console.error(xhr.status + ": " + xhr.responseText);
-                alert('An error occurred. Please try again.');
+                alert('❌ An error occurred. Please try again.');
             }
         });
     });
 });
 </script>
-
 {% endblock %}

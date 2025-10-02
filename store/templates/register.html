@@ -1,35 +1,105 @@
 {% extends 'base.html' %}
 {% block content %}
-<!-- Header-->
-<header class="bg-dark py-5">
+<!-- Header -->
+<header class="register-hero py-5">
     <div class="container px-4 px-lg-5 my-5">
         <div class="text-center text-white">
-            <h1 class="display-4 fw-bolder">Register</h1>
-            <p class="lead fw-normal text-white-50 mb-0">Register for user account</p>
+            <h1 class="display-4 fw-bolder">Create Account</h1>
+            <p class="lead fw-normal text-white-50 mb-0">Register to get started</p>
         </div>
     </div>
 </header>
 
-<div class="container">
-    <div class="row">
+<!-- Register Form -->
+<div class="container my-5 d-flex justify-content-center">
+    <div class="card register-card shadow-lg p-4">
+        <h2 class="text-center mb-4 text-white">Register</h2>
 
-        <div class="col-8">
-            <br/><br/>
+        <form method="POST" action="{% url 'register' %}">
+            {% csrf_token %}
 
-                <form method="POST" action="{% url 'register' %}">
-                    {% csrf_token %}
-                    {{ form.as_p}}
-                    <br/><br/>
-                    <button type ='submit' class ="btn btn-secondary">
-                        Register
-                    </button>
+            <!-- Django form fields -->
+            <div class="form-fields text-white">
+                {{ form.as_p }}
+            </div>
 
-                </form>
+            <!-- Submit -->
+            <div class="d-grid mt-3">
+                <button type="submit" class="btn btn-primary rounded-pill">Register</button>
+            </div>
+        </form>
 
+        <div class="text-center mt-3">
+            <p class="text-muted mb-0">Already have an account? <a href="{% url 'login' %}" class="register-link">Login</a></p>
         </div>
-        <br/><br/>
-
-
     </div>
 </div>
+
+<!-- Custom CSS -->
+<style>
+  /* Hero Section */
+  .register-hero {
+    background: linear-gradient(135deg, #2575fc, #6a11cb);
+    border-bottom: 4px solid #0d6efd;
+  }
+
+  /* Register Card */
+  .register-card {
+    background-color: #1e1e1e;
+    border: none;
+    border-radius: 16px;
+    width: 100%;
+    max-width: 500px;
+    color: #eaeaea;
+  }
+
+  /* Django Form Fields */
+  .register-card .form-fields p {
+    margin-bottom: 18px;
+  }
+  .register-card .form-fields label {
+    font-weight: 600;
+    margin-bottom: 6px;
+    display: block;
+  }
+  .register-card .form-fields input {
+    background-color: #2b2b2b;
+    border: none;
+    border-radius: 12px;
+    padding: 12px;
+    color: #fff;
+    width: 100%;
+  }
+  .register-card .form-fields input::placeholder {
+    color: #bbb;
+  }
+  .register-card .form-fields input:focus {
+    background-color: #333;
+    box-shadow: 0 0 0 2px #6a11cb;
+    color: #fff;
+  }
+
+  /* Button */
+  .btn-primary {
+    background: linear-gradient(135deg, #2575fc, #6a11cb);
+    border: none;
+    padding: 12px;
+    font-weight: bold;
+    transition: transform 0.3s ease;
+  }
+  .btn-primary:hover {
+    transform: scale(1.05);
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
+  }
+
+  /* Link */
+  .register-link {
+    color: #0d6efd;
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .register-link:hover {
+    color: #6a11cb;
+  }
+</style>
 {% endblock %}
