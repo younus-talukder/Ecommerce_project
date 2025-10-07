@@ -6,6 +6,6 @@
   "outputDirectory": "staticfiles",
   "routes": [
     { "src": "/static/(.*)", "dest": "/static/$1" },
-    { "src": "/(.*)", "dest": "ecom/wsgi.py" }
+    { "src": "/(.*)", "dest": "ecom/manage.py" }
   ]
 }
