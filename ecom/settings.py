@@ -1,6 +1,6 @@
 import os
 from pathlib import Path
-import dj_database_url
+
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -77,6 +77,7 @@ STATICFILES_DIRS = [BASE_DIR / 'static']
 
 # Use WhiteNoise static storage (optional but recommended)
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'

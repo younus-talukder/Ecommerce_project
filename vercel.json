@@ -1,11 +1,15 @@
-
 {
   "version": 2,
-  "buildCommand": "pip install -r requirements.txt && python manage.py collectstatic --noinput",
-  "installCommand": "pip install -r requirements.txt",
-  "outputDirectory": "staticfiles",
+  "builds": [
+    {
+      "src": "ecom/ecom/wsgi.py",
+      "use": "@vercel/python"
+    }
+  ],
   "routes": [
-    { "src": "/static/(.*)", "dest": "/static/$1" },
-    { "src": "/(.*)", "dest": "ecom/manage.py" }
+    {
+      "src": "/(.*)",
+      "dest": "ecom/ecom/wsgi.py"
+    }
   ]
 }
