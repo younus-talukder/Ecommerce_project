@@ -28,3 +28,38 @@ class SignUpForm(UserCreationForm):
 		self.fields['password2'].widget.attrs['placeholder'] = 'Confirm Password'
 		self.fields['password2'].label = ''
 		self.fields['password2'].help_text = '<span class="form-text text-muted"><small>Enter the same password as before, for verification.</small></span>'
+
+
+class CheckoutForm(forms.Form):
+    first_name = forms.CharField(max_length=100)
+    last_name = forms.CharField(max_length=100)
+    email = forms.EmailField()
+    phone = forms.CharField(max_length=30)
+    address_line_1 = forms.CharField(max_length=255, label='Address')
+    address_line_2 = forms.CharField(
+        max_length=255,
+        required=False,
+        label='Address line 2',
+    )
+    city = forms.CharField(max_length=100)
+    postal_code = forms.CharField(max_length=20, label='Postal code')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        autocomplete = {
+            'first_name': 'given-name',
+            'last_name': 'family-name',
+            'email': 'email',
+            'phone': 'tel',
+            'address_line_1': 'address-line1',
+            'address_line_2': 'address-line2',
+            'city': 'address-level2',
+            'postal_code': 'postal-code',
+        }
+        for name, field in self.fields.items():
+            field.widget.attrs.update(
+                {
+                    'class': 'form-control',
+                    'autocomplete': autocomplete[name],
+                }
+            )

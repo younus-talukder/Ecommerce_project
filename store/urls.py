@@ -26,8 +26,12 @@ urlpatterns = [
     path('register/', views.register_user, name='register'),
     path('product/<int:pk>', views.product, name='product'),
     path('category/<str:foo>', views.category, name='category'),
-
-
-
-
+    path('checkout/', views.checkout, name='checkout'),
+    path('orders/', views.order_history, name='order_history'),
+    path('orders/<str:order_number>/', views.order_detail, name='order_detail'),
+    path(
+        'orders/<str:order_number>/confirmation/',
+        views.order_confirmation,
+        name='order_confirmation',
+    ),
 ]

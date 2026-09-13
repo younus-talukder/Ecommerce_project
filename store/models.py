@@ -1,3 +1,7 @@
+import uuid
+from decimal import Decimal
+
+from django.conf import settings
 from django.db import models
 from django.utils import timezone
 
@@ -10,17 +14,6 @@ class Category(models.Model):
 
     class Meta:
         verbose_name_plural = 'categories'
-
-
-class Customer(models.Model):
-    first_name = models.CharField(max_length=50)
-    last_name = models.CharField(max_length=50)
-    phone = models.CharField(max_length=50)
-    email = models.EmailField(max_length=50)
-    password = models.CharField(max_length=50)
-
-    def __str__(self):
-        return f'{self.first_name} {self.last_name}'
 
 
 class Product(models.Model):
@@ -38,15 +31,119 @@ class Product(models.Model):
         return self.name
 
 
+def generate_order_number():
+    date_part = timezone.now().strftime('%Y%m%d')
+    random_part = uuid.uuid4().hex[:10].upper()
+    return f'ORD-{date_part}-{random_part}'
+
+
 class Order(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
-    quantity = models.IntegerField(default=1)
-    address = models.CharField(max_length=100, default='', blank=False)
-    phone = models.CharField(max_length=50, default='', blank=True)
-    date = models.DateField(default=timezone.now)
-    status = models.BooleanField(default=False)
+    class Status(models.TextChoices):
+        PENDING = 'pending', 'Pending'
+        CONFIRMED = 'confirmed', 'Confirmed'
+        PROCESSING = 'processing', 'Processing'
+        SHIPPED = 'shipped', 'Shipped'
+        DELIVERED = 'delivered', 'Delivered'
+        CANCELLED = 'cancelled', 'Cancelled'
+
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.PROTECT,
+        related_name='orders',
+    )
+    order_number = models.CharField(
+        max_length=32,
+        unique=True,
+        default=generate_order_number,
+        editable=False,
+    )
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    email = models.EmailField()
+    phone = models.CharField(max_length=30)
+    address_line_1 = models.CharField(max_length=255)
+    address_line_2 = models.CharField(max_length=255, blank=True, default='')
+    city = models.CharField(max_length=100)
+    postal_code = models.CharField(max_length=20)
+    subtotal = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        default=Decimal('0.00'),
+    )
+    total = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        default=Decimal('0.00'),
+    )
+    status = models.CharField(
+        max_length=20,
+        choices=Status.choices,
+        default=Status.PENDING,
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.product.name
+        return self.order_number
+
+    class Meta:
+        ordering = ['-created_at']
+        constraints = [
+            models.CheckConstraint(
+                condition=models.Q(subtotal__gte=0),
+                name='order_subtotal_nonnegative',
+            ),
+            models.CheckConstraint(
+                condition=models.Q(total__gte=0),
+                name='order_total_nonnegative',
+            ),
+        ]
+
+
+class OrderItem(models.Model):
+    order = models.ForeignKey(
+        Order,
+        on_delete=models.CASCADE,
+        related_name='items',
+    )
+    product = models.ForeignKey(
+        Product,
+        on_delete=models.SET_NULL,
+        related_name='order_items',
+        null=True,
+        blank=True,
+    )
+    product_name = models.CharField(max_length=255)
+    unit_price = models.DecimalField(max_digits=12, decimal_places=2)
+    quantity = models.PositiveIntegerField()
+    line_total = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        default=Decimal('0.00'),
+        editable=False,
+    )
+
+    def save(self, *args, **kwargs):
+        self.line_total = self.unit_price * self.quantity
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f'{self.product_name} × {self.quantity}'
+
+    class Meta:
+        ordering = ['id']
+        constraints = [
+            models.CheckConstraint(
+                condition=models.Q(unit_price__gte=0),
+                name='order_item_unit_price_nonnegative',
+            ),
+            models.CheckConstraint(
+                condition=models.Q(quantity__gt=0),
+                name='order_item_quantity_positive',
+            ),
+            models.CheckConstraint(
+                condition=models.Q(line_total__gte=0),
+                name='order_item_line_total_nonnegative',
+            ),
+        ]
 

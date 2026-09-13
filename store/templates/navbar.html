@@ -25,7 +25,13 @@
 
         {% if user.is_authenticated %}
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'logout'%}">Logout</a>
+          <a class="nav-link" href="{% url 'order_history' %}">My Orders</a>
+        </li>
+        <li class="nav-item">
+          <form method="post" action="{% url 'logout' %}" class="d-inline">
+            {% csrf_token %}
+            <button type="submit" class="nav-link border-0 bg-transparent">Logout</button>
+          </form>
         </li>
         {% else %}
         <li class="nav-item">
@@ -59,10 +65,11 @@
       </form>
 
       <!-- Cart Button -->
+      <a href="{% url 'checkout' %}" class="btn btn-outline-primary ms-lg-3 rounded-pill">Checkout</a>
       <li class="nav-item ms-lg-3 list-unstyled">
         <a href="{% url 'cart_summary' %}" class="btn btn-cart d-flex align-items-center px-3 py-2 rounded-pill shadow-sm">
           <i class="bi bi-cart-fill me-2"></i> Cart
-          <span class="badge bg-danger text-white ms-2 rounded-pill">0</span>
+          <span id="cart_quantity" class="badge bg-danger text-white ms-2 rounded-pill">{{ cart|length }}</span>
         </a>
       </li>
     </div>

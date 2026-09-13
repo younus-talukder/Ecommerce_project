@@ -1,13 +1,85 @@
-{%extends 'base.html' %}
+{% extends 'base.html' %}
 {% block content %}
-        <!-- Header-->
-        <header class="bg-dark py-5">
-            <div class="container px-4 px-lg-5 my-5">
-                <div class="text-center text-white">
-                    <h1 class="display-4 fw-bolder">Shopping Cart</h1>
-                    <p class="lead fw-normal text-white-50 mb-0">View Your Cart</p>
-                </div>
+<header class="bg-dark py-5">
+  <div class="container px-4 px-lg-5 my-5">
+    <div class="text-center text-white">
+      <h1 class="display-4 fw-bolder">Shopping Cart</h1>
+      <p class="lead fw-normal text-white-50 mb-0">Review your selected products</p>
+    </div>
+  </div>
+</header>
+
+<section class="py-5">
+  <div class="container">
+    {% if cart|length %}
+      <div class="table-responsive">
+        <table class="table table-dark table-striped align-middle">
+          <thead>
+            <tr>
+              <th scope="col">Product</th>
+              <th scope="col">Unit price</th>
+              <th scope="col">Quantity</th>
+              <th scope="col">Line total</th>
+              <th scope="col" class="text-end">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in cart %}
+              <tr>
+                <td>
+                  <a href="{% url 'product' item.product.id %}" class="text-white text-decoration-none d-flex align-items-center gap-3">
+                    <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" width="80" height="80" class="rounded object-fit-cover">
+                    <span>{{ item.product.name }}</span>
+                  </a>
+                </td>
+                <td>${{ item.price }}</td>
+                <td>
+                  <form method="post" action="{% url 'cart_update' %}" class="d-flex gap-2">
+                    {% csrf_token %}
+                    <input type="hidden" name="product_id" value="{{ item.product.id }}">
+                    <label for="quantity-{{ item.product.id }}" class="visually-hidden">Quantity for {{ item.product.name }}</label>
+                    <input id="quantity-{{ item.product.id }}" type="number" name="quantity" min="1" value="{{ item.quantity }}" class="form-control" style="width: 85px;" required>
+                    <button type="submit" class="btn btn-outline-light btn-sm">Update</button>
+                  </form>
+                </td>
+                <td>${{ item.total_price }}</td>
+                <td class="text-end">
+                  <form method="post" action="{% url 'cart_delete' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="product_id" value="{{ item.product.id }}">
+                    <button type="submit" class="btn btn-outline-danger btn-sm">Remove</button>
+                  </form>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="row justify-content-end mt-4">
+        <div class="col-md-5 col-lg-4">
+          <div class="card bg-dark text-white border-secondary">
+            <div class="card-body">
+              <div class="d-flex justify-content-between mb-2">
+                <span>Subtotal</span>
+                <strong>${{ cart.get_total_price }}</strong>
+              </div>
+              <div class="d-flex justify-content-between border-top border-secondary pt-3">
+                <span>Grand total</span>
+                <strong>${{ cart.get_total_price }}</strong>
+              </div>
+              <a href="{% url 'checkout' %}" class="btn btn-primary w-100 mt-4">Checkout</a>
             </div>
-        </header>
-<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+          </div>
+        </div>
+      </div>
+    {% else %}
+      <div class="text-center py-5">
+        <h2>Your cart is empty</h2>
+        <p class="text-muted">Add a product to begin your order.</p>
+        <a href="{% url 'home' %}" class="btn btn-primary">Continue shopping</a>
+      </div>
+    {% endif %}
+  </div>
+</section>
 {% endblock %}

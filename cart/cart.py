@@ -6,22 +6,33 @@ class Cart:
 
     def __init__(self, request):
         self.session = request.session
-        cart = self.session.get(self.CART_SESSION_ID)
-        if not cart:
-            cart = self.session[self.CART_SESSION_ID] = {}
-        self.cart = cart
+        # Do not create an empty session merely because a page rendered.
+        self.cart = self.session.get(self.CART_SESSION_ID, {})
 
     def add(self, product, quantity=1, update_quantity=False):
         """
         Add a product to the cart or update its quantity.
         """
+        try:
+            quantity = int(quantity)
+        except (TypeError, ValueError) as exc:
+            raise ValueError('Quantity must be a positive integer.') from exc
+        if quantity < 1:
+            raise ValueError('Quantity must be a positive integer.')
+
         product_id = str(product.id)
+        effective_price = product.sale_price if product.is_sale else product.price
         if product_id in self.cart:
             if update_quantity:
                 self.cart[product_id]['quantity'] = quantity
+            else:
+                self.cart[product_id]['quantity'] += quantity
         else:
-            # store price as string for JSON serializability in session
-            self.cart[product_id] = {'price': str(product.price), 'quantity': quantity}
+            self.cart[product_id] = {'quantity': quantity}
+
+        # Refresh the effective price whenever the cart is changed.
+        self.cart[product_id]['price'] = str(effective_price)
+        self.session[self.CART_SESSION_ID] = self.cart
         self.save()
 
     def save(self):
@@ -34,6 +45,13 @@ class Cart:
         if product_id in self.cart:
             del self.cart[product_id]
             self.save()
+
+    def contains(self, product):
+        return str(product.id) in self.cart
+
+    def get_quantity(self, product):
+        item = self.cart.get(str(product.id), {})
+        return item.get('quantity', 0)
 
     def __iter__(self):
         """
@@ -52,8 +70,14 @@ class Cart:
         for pid, item in list(self.cart.items()):
             product = product_map.get(pid)
             if product:
-                price = Decimal(item.get('price', '0'))
+                current_price = product.sale_price if product.is_sale else product.price
+                price = Decimal(current_price)
                 qty = item.get('quantity', 1)
+
+                if item.get('price') != str(current_price):
+                    item['price'] = str(current_price)
+                    self.save()
+
                 yield {
                     'product': product,
                     'quantity': qty,
@@ -83,5 +107,6 @@ class Cart:
     def clear(self):
         """Empty the cart from
         the session."""
-        self.session.pop(self.CART_SESSION_ID, None)
-        self.save()
+        if self.CART_SESSION_ID in self.session:
+            del self.session[self.CART_SESSION_ID]
+            self.save()

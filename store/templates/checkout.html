@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% block content %}
+<header class="bg-dark py-5">
+  <div class="container text-center text-white">
+    <h1 class="display-4 fw-bolder">Checkout</h1>
+    <p class="lead text-white-50 mb-0">Shipping and contact information</p>
+  </div>
+</header>
+
+<section class="py-5">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-lg-7">
+        <div class="card bg-dark text-white border-secondary">
+          <div class="card-body p-4">
+            <h2 class="h4 mb-4">Delivery details</h2>
+            <form method="post" action="{% url 'checkout' %}" novalidate>
+              {% csrf_token %}
+              {% for hidden_field in form.hidden_fields %}
+                {{ hidden_field }}
+              {% endfor %}
+              {% if form.non_field_errors %}
+                <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+              {% endif %}
+
+              <div class="row g-3">
+                {% for field in form.visible_fields %}
+                  <div class="{% if field.name == 'address_line_1' or field.name == 'address_line_2' %}col-12{% else %}col-md-6{% endif %}">
+                    <label for="{{ field.id_for_label }}" class="form-label">
+                      {{ field.label }}{% if field.field.required %} *{% endif %}
+                    </label>
+                    {{ field }}
+                    {% for error in field.errors %}
+                      <div class="text-danger small mt-1">{{ error }}</div>
+                    {% endfor %}
+                  </div>
+                {% endfor %}
+              </div>
+
+              <button type="submit" class="btn btn-primary w-100 mt-4">Place order</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-5">
+        <div class="card bg-dark text-white border-secondary">
+          <div class="card-body p-4">
+            <h2 class="h4 mb-4">Order summary</h2>
+            {% for item in checkout_lines %}
+              <div class="d-flex justify-content-between gap-3 mb-3">
+                <div>
+                  <div>{{ item.product_name }}</div>
+                  <small class="text-white-50">{{ item.quantity }} × ${{ item.unit_price }}</small>
+                </div>
+                <strong>${{ item.line_total }}</strong>
+              </div>
+            {% endfor %}
+            <hr>
+            <div class="d-flex justify-content-between">
+              <span>Subtotal</span>
+              <strong>${{ subtotal }}</strong>
+            </div>
+            <div class="d-flex justify-content-between mt-2 fs-5">
+              <span>Total</span>
+              <strong>${{ total }}</strong>
+            </div>
+            <p class="small text-white-50 mt-3 mb-0">Payment will be arranged separately. No online payment is collected in this phase.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

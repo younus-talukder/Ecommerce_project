@@ -33,6 +33,8 @@
           <!-- Actions -->
           <div class="mt-4">
             <a href="{% url 'home' %}" class="btn btn-outline-light rounded-pill px-4 me-2">🏠 Home</a>
+            <label for="qty-cart" class="visually-hidden">Quantity</label>
+            <input id="qty-cart" type="number" min="1" value="1" class="form-control d-inline-block me-2" style="width: 85px;">
             <button type="button" value="{{ product.id }}" class="btn btn-primary rounded-pill px-4 add-cart">🛒 Add To Cart</button>
           </div>
         </div>
@@ -117,9 +119,6 @@
   }
 </style>
 
-<!-- jQuery (if not in base.html) -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
 <script>
 $(document).ready(function() {
     // Add to Cart button click
@@ -127,17 +126,18 @@ $(document).ready(function() {
         e.preventDefault();
 
         var productId = $(this).val();
+        var quantity = $('#qty-cart').val();
 
         $.ajax({
             type: 'POST',
             url: "{% url 'cart_add' %}",
             data: {
                 product_id: productId,
-                csrfmiddlewaretoken: '{{ csrf_token }}',
-                action: 'post'
+                quantity: quantity,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
             },
             success: function(response) {
-                console.log(response);
+                $('#cart_quantity').text(response.cart_quantity);
                 alert('✅ Product added to cart!');
             },
             error: function(xhr, errmsg, err) {
